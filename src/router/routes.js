@@ -9,6 +9,10 @@ const routes = [
     ],
   },
 
+  {
+    path: "/question/ask",
+    component: () => import("pages/AskQuestion.vue"),
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
