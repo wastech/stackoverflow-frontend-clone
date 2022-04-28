@@ -25,6 +25,9 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    link: {
+      type: String,
+    },
   },
 });
 </script>

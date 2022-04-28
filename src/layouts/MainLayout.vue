@@ -13,13 +13,11 @@
             />
           </q-list>
         </div>
-         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-        <q-page-container>
-
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+          <q-page-container>
             <router-view />
-
-        </q-page-container>
-           </div>
+          </q-page-container>
+        </div>
       </div>
     </div>
   </div>
@@ -31,14 +29,17 @@ import EssentialLink from "components/EssentialLink.vue";
 const linksList = [
   {
     title: "Questions ",
+    link: "/",
 
     icon: "school",
   },
   {
     title: "Tags",
+      link: "/tags",
   },
   {
     title: "Users",
+      link: "/users",
   },
 ];
 
@@ -69,7 +70,7 @@ export default defineComponent({
   width: 70%;
   margin: 0 auto;
 }
-.left___side{
+.left___side {
   border-right: 1px solid #ccc !important;
   height: 100vh;
 }
