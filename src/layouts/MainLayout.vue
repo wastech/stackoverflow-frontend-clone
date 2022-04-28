@@ -35,11 +35,11 @@ const linksList = [
   },
   {
     title: "Tags",
-      link: "/tags",
+    link: "/tags",
   },
   {
     title: "Users",
-      link: "/users",
+    link: "/users",
   },
 ];
 

@@ -152,7 +152,7 @@ export default {
 </script>
 <style>
 .main {
-  width: 75%;
+  width: 60%;
   margin: 0 auto;
 }
 </style>
