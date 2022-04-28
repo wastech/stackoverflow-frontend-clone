@@ -22,7 +22,7 @@
               <div class="text-capton text-bold">Email</div>
               <q-input outlined v-model="username" dense lazy-rules />
 
-              <div class="text-capton text-bold">Email</div>
+              <div class="text-capton text-bold">Password</div>
               <q-input
                 type="password"
                 outlined

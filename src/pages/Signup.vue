@@ -19,10 +19,13 @@
             </div>
 
             <q-form class="q-gutter-md">
-              <div class="text-capton text-bold">Email</div>
+              <div class="text-capton text-bold">Display Name</div>
               <q-input outlined v-model="username" dense lazy-rules />
 
               <div class="text-capton text-bold">Email</div>
+              <q-input outlined v-model="username" dense lazy-rules />
+
+              <div class="text-capton text-bold">Password</div>
               <q-input
                 type="password"
                 outlined
@@ -33,10 +36,10 @@
 
               <div>
                 <q-btn
-                  label="Login"
+                  label="Sign Up"
                   to="/"
-                   class="full-width"
-                   no-caps
+                  class="full-width"
+                  no-caps
                   type="button"
                   dense
                   color="primary"
@@ -46,7 +49,7 @@
           </q-card>
 
           <div class="text-subtitle2 text-center q-my-lg">
-              Don’t have an account? <span class="text-primary">Sign up</span> 
+            Already have an account? <span class="text-primary">Login</span>
           </div>
         </div>
       </q-page>
