@@ -33,8 +33,8 @@
       <q-space />
       <q-tabs>
         <q-btn flat round dense icon="bluetooth" class="q-mr-sm" />
-        <q-tab name="login " label="login" />
-        <q-tab name="register" label="register" />
+        <q-btn name="login " to="/login" label="login" />
+        <q-btn name="register" to="/signup" label="register" />
       </q-tabs>
     </q-toolbar>
   </div>

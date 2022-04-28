@@ -1,6 +1,6 @@
 import { store } from "quasar/wrappers";
 import { createStore } from "vuex";
-
+import createPersistedState from "vuex-persistedstate";
 // import example from './module-example'
 
 /*
@@ -12,16 +12,38 @@ import { createStore } from "vuex";
  * with the Store instance.
  */
 
-export default store(function (/* { ssrContext } */) {
-  const Store = createStore({
-    modules: {
-      // example
+export default createStore({
+  // strict: true,
+  plugins: [createPersistedState()],
+  state: {
+    token: null,
+    user: null,
+    isUserLoggedIn: false,
+  },
+
+  mutations: {
+    setToken(state, token) {
+      state.token = token;
+      state.isUserLoggedIn = !!token;
     },
+    setUser(state, user) {
+      state.user = user;
+    },
+  },
+  actions: {
+    setToken({ commit }, token) {
+      commit("setToken", token);
+    },
+    setUser({ commit }, user) {
+      commit("setUser", user);
+    },
+  },
 
-    // enable strict mode (adds overhead!)
-    // for dev mode and --debug builds only
-    strict: process.env.DEBUGGING,
-  });
+  modules: {
+    // example
+  },
 
-  return Store;
+  // enable strict mode (adds overhead!)
+  // for dev mode and --debug builds only
+  strict: process.env.DEBUGGING,
 });

@@ -18,26 +18,46 @@
               <div class="col text-h6 ellipsis">Log in</div>
             </div>
 
-            <q-form class="q-gutter-md">
+            <q-form class="q-gutter-md" @submit.prevent="onSubmit">
               <div class="text-capton text-bold">Email</div>
-              <q-input outlined v-model="username" dense lazy-rules />
+              <q-input
+                outlined
+                  ref="email"
+                v-model="email"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Please type something',
+                ]"
+                dense
+              />
 
               <div class="text-capton text-bold">Password</div>
               <q-input
-                type="password"
                 outlined
                 v-model="password"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Please type something',
+                ]"
                 dense
                 lazy-rules
-              />
+                ref="password"
+                :type="isPwd ? 'password' : 'text'"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
+              </q-input>
 
               <div>
                 <q-btn
                   label="Login"
-                  to="/"
-                   class="full-width"
-                   no-caps
-                  type="button"
+                  class="full-width"
+                  no-caps
+                  type="submit"
                   dense
                   color="primary"
                 />
@@ -46,7 +66,7 @@
           </q-card>
 
           <div class="text-subtitle2 text-center q-my-lg">
-              Don’t have an account? <span class="text-primary">Sign up</span> 
+            Don’t have an account? <span class="text-primary"><a href="/signup">Sign up</a> </span>
           </div>
         </div>
       </q-page>
@@ -55,16 +75,50 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { ref } from "vue";
-export default defineComponent({
-  setup() {
+// inside of a Vue file
+// import { useQuasar } from 'quasar'
+import AuthenticationService from "../services/AuthenticationService";
+export default {
+  data() {
     return {
-      username: ref("Pratik"),
-      password: ref("12345"),
+      password: "",
+      isPwd: true,
+      email: "",
     };
   },
-});
+  methods: {
+    onSubmit() {
+      this.$refs.email.validate();
+      this.$refs.password.validate();
+      this.login();
+    },
+    async login() {
+      try {
+        const response = await AuthenticationService.login({
+          email: this.email,
+          password: this.password,
+        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$q.notify({
+          type: "positive",
+          timeout: 1000,
+          position: "center",
+          message: "success",
+        });
+        this.$router.push("/");
+      } catch (error) {
+        console.log("this is error", error.response.data.error);
+        this.$q.notify({
+          type: "negative",
+          timeout: 500,
+          position: "center",
+          message: error.response.data.error,
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style></style>

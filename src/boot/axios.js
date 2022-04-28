@@ -1,3 +1,4 @@
+import store from "../store/index";
 import { boot } from "quasar/wrappers";
 import axios from "axios";
 
@@ -7,7 +8,12 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "https://api.example.com" });
+const api = axios.create({
+  baseURL: "http://localhost:5000/api/v1",
+  headers: {
+    Authorization: `Bearer ${store.state.token}`,
+  },
+});
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -21,4 +27,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 });
 
-export { api };
+export { axios, api };
