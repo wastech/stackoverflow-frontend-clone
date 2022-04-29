@@ -16,7 +16,7 @@ export default {
   },
 
   users() {
-    return api().get("users");
+    return api.get("/users");
   },
   updatepass() {
     return api().put("auth/updatepassword");

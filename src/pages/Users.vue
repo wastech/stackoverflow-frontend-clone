@@ -40,114 +40,128 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+      <div
+        class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xl-3"
+        v-for="user in users"
+        :key="user.id"
+      >
         <q-item>
           <q-item-section top avatar>
             <q-avatar rounded size="70px">
-              <img
-                src="https://image.shutterstock.com/image-photo/portrait-handsome-man-smiling-against-260nw-764366404.jpg"
-              />
+              <img :src="user.image" :alt="user.username" />
             </q-avatar>
           </q-item-section>
 
           <q-item-section>
-            <q-item-label class="text-primary text-weight-bold"
-              >onyambu</q-item-label
-            >
-            <q-item-label caption>Los Angeles</q-item-label>
-            <q-item-label caption class="text-weight-bold"
-              >Los Angeles</q-item-label
-            >
+            <q-item-label class="text-primary text-weight-bold">{{
+              user.username
+            }}</q-item-label>
+            <q-item-label caption>{{ user.address.address }}</q-item-label>
+            <!-- <q-item-label caption class="text-weight-bold"
+              >{{user.phone}}</q-item-label
+            > -->
             <q-item-label caption class="text-primary text-weight-bold">
-              Los Angeles</q-item-label
-            >
-          </q-item-section>
-        </q-item>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-        <q-item>
-          <q-item-section top avatar>
-            <q-avatar rounded size="70px">
-              <img
-                src="https://image.shutterstock.com/image-photo/portrait-handsome-man-smiling-against-260nw-764366404.jpg"
-              />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label class="text-primary text-weight-bold"
-              >onyambu</q-item-label
-            >
-            <q-item-label caption>Los Angeles</q-item-label>
-            <q-item-label caption class="text-weight-bold"
-              >Los Angeles</q-item-label
-            >
-            <q-item-label caption class="text-primary text-weight-bold">
-              Los Angeles</q-item-label
-            >
-          </q-item-section>
-        </q-item>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-        <q-item>
-          <q-item-section top avatar>
-            <q-avatar rounded size="70px">
-              <img
-                src="https://image.shutterstock.com/image-photo/portrait-handsome-man-smiling-against-260nw-764366404.jpg"
-              />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label class="text-primary text-weight-bold"
-              >onyambu</q-item-label
-            >
-            <q-item-label caption>Los Angeles</q-item-label>
-            <q-item-label caption class="text-weight-bold"
-              >Los Angeles</q-item-label
-            >
-            <q-item-label caption class="text-primary text-weight-bold">
-              Los Angeles</q-item-label
-            >
-          </q-item-section>
-        </q-item>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-        <q-item>
-          <q-item-section top avatar>
-            <q-avatar rounded size="70px">
-              <img
-                src="https://image.shutterstock.com/image-photo/portrait-handsome-man-smiling-against-260nw-764366404.jpg"
-              />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label class="text-primary text-weight-bold"
-              >onyambu</q-item-label
-            >
-            <q-item-label caption>Los Angeles</q-item-label>
-            <q-item-label caption class="text-weight-bold"
-              >Los Angeles</q-item-label
-            >
-            <q-item-label caption class="text-primary text-weight-bold">
-              Los Angeles</q-item-label
+              {{ user.address.city }}</q-item-label
             >
           </q-item-section>
         </q-item>
       </div>
     </div>
+
+    <div class="q-pa-lg flex flex-center q-mt-sm">
+      <q-pagination
+        v-model="pagination.page"
+        :max="pagesNumber"
+        size="md"
+        :boundary-links="true"
+        :to-fn="(page) => ({ query: { page: page } })"
+      />
+    </div>
   </div>
 </template>
 <script>
+import { api } from "boot/axios";
+
 export default {
+  // name: 'ComponentName',
   data() {
     return {
-      keyword: "",
-      sfClose: true,
+      users: [],
+      perPage: null,
+      currentPage: null,
+      total: null,
+      page: null,
+      pagination: {},
     };
   },
+  created() {
+    (this.pagination = {
+      page: this.currentPage,
+      perPage: this.limit,
+    }),
+      this.fetchData();
+  },
+  watch: {
+    $route: "fetchData",
+  },
+  computed: {
+    pagesNumber() {
+      return Math.ceil(this.total / this.perPage);
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        this.pagination.page = this.$route.query.page;
+        await api
+          .get(`users`, {
+            params: {
+              page: this.pagination.page,
+            },
+          })
+          .then((response) => {
+            this.users = response.data.data;
+            this.current_page = response.data.current_page;
+            this.perPage = response.data.limit;
+            this.total = response.data.total;
+       
+          });
+      } catch (err) {}
+    },
+    // viewPost(item_id) {
+    //   this.$router.push({ name: "blog", params: { id: item_id } });
+    // },
+  },
 };
+// import AuthenticationService from "../services/AuthenticationService";
+// export default {
+//   data() {
+//     return {
+//       users: [],
+//     };
+//   },
+//   methods: {
+//     async queryindex() {
+//       try {
+//         await AuthenticationService.users().then((response) => {
+//           this.users = response.data.data;
+//           console.log("first", this.users);
+//         });
+//       } catch (err) {
+//         console.log(err.response);
+//       }
+//     },
+//     viewPost(item_id) {
+//       this.$router.push({ name: "blog", params: { id: item_id } });
+//     },
+//   },
+//   async mounted() {
+//     this.queryindex();
+//   },
+// };
 </script>
 <style scoped>
 .text-body1 {

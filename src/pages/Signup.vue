@@ -61,7 +61,8 @@
           </q-card>
 
           <div class="text-subtitle2 text-center q-my-lg">
-            Already have an account? <span class="text-primary">Login</span>
+            Already have an account?
+            <span class="text-primary"> <a href="/login">Login</a> </span>
           </div>
         </div>
       </q-page>
