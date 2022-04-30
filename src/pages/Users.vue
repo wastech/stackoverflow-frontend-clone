@@ -47,15 +47,28 @@
       >
         <q-item>
           <q-item-section top avatar>
-            <q-avatar rounded size="70px">
-              <img :src="user.image" :alt="user.username" />
-            </q-avatar>
+            <router-link
+              v-bind:to="{
+                name: 'user',
+                params: { id: user._id },
+              }"
+            >
+              <q-avatar rounded size="70px">
+                <img :src="user.image" :alt="user.username" />
+              </q-avatar>
+            </router-link>
           </q-item-section>
 
           <q-item-section>
-            <q-item-label class="text-primary text-weight-bold">{{
-              user.username
-            }}</q-item-label>
+            <q-item-label class="text-primary text-weight-bold">
+              <router-link
+                v-bind:to="{
+                  name: 'user',
+                  params: { id: user._id },
+                }"
+                >{{ user.username }}
+              </router-link>
+            </q-item-label>
             <q-item-label caption>{{ user.address.address }}</q-item-label>
             <!-- <q-item-label caption class="text-weight-bold"
               >{{user.phone}}</q-item-label
@@ -72,7 +85,7 @@
       <q-pagination
         v-model="pagination.page"
         :max="pagesNumber"
-          v-if="users.length > 31"
+        v-if="users.length > 31"
         size="md"
         :boundary-links="true"
         :to-fn="(page) => ({ query: { page: page } })"
@@ -106,7 +119,7 @@ export default {
   },
   watch: {
     $route: "fetchData",
-     keyword() {
+    keyword() {
       if (!this.keyword) return;
       this.debounceName();
     },
@@ -121,10 +134,10 @@ export default {
     this.debounceName = debounce(this.fetchData, 500);
   },
   // created() {
-    
+
   // },
   // watch: {
-   
+
   // },
   methods: {
     async fetchData() {
@@ -178,9 +191,7 @@ export default {
 //         console.log(err.response);
 //       }
 //     },
-//     viewPost(item_id) {
-//       this.$router.push({ name: "blog", params: { id: item_id } });
-//     },
+//
 //   },
 //   async mounted() {
 //     this.queryindex();
@@ -190,5 +201,9 @@ export default {
 <style scoped>
 .text-body1 {
   width: 70%;
+}
+a {
+  text-decoration: none;
+  
 }
 </style>
