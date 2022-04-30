@@ -60,7 +60,7 @@
             <!-- <q-item-label caption class="text-weight-bold"
               >{{user.phone}}</q-item-label
             > -->
-            <q-item-label caption class="text-primary text-weight-bold">
+            <q-item-label caption class="text-primary">
               {{ user.address.city }}</q-item-label
             >
           </q-item-section>
@@ -72,6 +72,7 @@
       <q-pagination
         v-model="pagination.page"
         :max="pagesNumber"
+          v-if="users.length > 31"
         size="md"
         :boundary-links="true"
         :to-fn="(page) => ({ query: { page: page } })"
@@ -80,6 +81,7 @@
   </div>
 </template>
 <script>
+import { debounce } from "lodash";
 import { api } from "boot/axios";
 
 export default {
@@ -92,6 +94,7 @@ export default {
       total: null,
       page: null,
       pagination: {},
+      keyword: "",
     };
   },
   created() {
@@ -103,6 +106,10 @@ export default {
   },
   watch: {
     $route: "fetchData",
+     keyword() {
+      if (!this.keyword) return;
+      this.debounceName();
+    },
   },
   computed: {
     pagesNumber() {
@@ -111,24 +118,41 @@ export default {
   },
   mounted() {
     this.fetchData();
+    this.debounceName = debounce(this.fetchData, 500);
   },
+  // created() {
+    
+  // },
+  // watch: {
+   
+  // },
   methods: {
     async fetchData() {
       try {
         this.pagination.page = this.$route.query.page;
-        await api
-          .get(`users`, {
-            params: {
-              page: this.pagination.page,
-            },
-          })
-          .then((response) => {
-            this.users = response.data.data;
-            this.current_page = response.data.current_page;
-            this.perPage = response.data.limit;
-            this.total = response.data.total;
-       
-          });
+        if (this.keyword) {
+          await api
+            .get(`users/?keyword=${this.keyword}`, {})
+            .then((response) => {
+              this.users = response.data.data;
+              this.current_page = response.data.current_page;
+              this.perPage = response.data.limit;
+              this.total = response.data.total;
+            });
+        } else {
+          await api
+            .get(`users`, {
+              params: {
+                page: this.pagination.page,
+              },
+            })
+            .then((response) => {
+              this.users = response.data.data;
+              this.current_page = response.data.current_page;
+              this.perPage = response.data.limit;
+              this.total = response.data.total;
+            });
+        }
       } catch (err) {}
     },
     // viewPost(item_id) {
