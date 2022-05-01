@@ -3,7 +3,7 @@
     <div class="title">
       <div class="text-h4 text-weight-medium">Users</div>
     </div>
-
+<div class="text-caption text-bold q-my-sm">{{total}} Users</div>
     <div class="row justify-between q-my-lg">
       <div class="col-md-4">
         <div>
