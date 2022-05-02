@@ -1,7 +1,7 @@
 <template>
   <q-layout>
     <nav-bar />
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </q-layout>
 </template>
 <script>

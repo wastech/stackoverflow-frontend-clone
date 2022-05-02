@@ -7,10 +7,12 @@ const routes = [
       { path: "/tags", component: () => import("pages/Tags.vue") },
 
       { path: "/users", component: () => import("pages/Users.vue") },
-      { path: "/questions", component: () => import("pages/QuestionPage.vue") },
-      { path: "/user/:id", name:"user", component: () => import("pages/User.vue") },
+      { path: "/questions/:id", name:"question", component: () => import("pages/QuestionPage.vue") },
+      { path: "/user/:id", name: "user", component: () => import("pages/User.vue") },
+      { path: "/questions/tagged/:tag", name:"tagged", component: () => import("pages/Tagged.vue") },
     ],
   },
+
 
   {
     path: "/login",

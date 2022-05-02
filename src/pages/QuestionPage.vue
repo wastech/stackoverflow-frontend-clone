@@ -5,18 +5,31 @@
         <div class="row justify-between q-col-gutter-sm">
           <div class="col-md-8">
             <div class="title">
-              <div class="text-h6 text-weight-medium">
-                How to merge lists of objects, based on time key
-              </div>
+              <div
+                class="text-h6 text-weight-medium"
+                v-html="question.title"
+              ></div>
               <div class="q-gutter-lg row">
-                <div class="text-caption">Asked today</div>
-                <div class="text-caption">Modified today</div>
-                <div class="text-caption">Viewed 3 times</div>
+                <div class="text-caption">
+                  Asked {{ moment(question.createdAt).fromNow() }}
+                </div>
+                <div class="text-caption">
+                  Modified {{ moment(question.updatedAt).fromNow() }}
+                </div>
+                <div class="text-caption">
+                  Viewed {{ question.view_count }} times
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-4">
-            <q-btn color="primary" size="md" to="/question/ask" label="Ask Questions" no-caps />
+            <q-btn
+              color="primary"
+              size="md"
+              to="/question/ask"
+              label="Ask Questions"
+              no-caps
+            />
           </div>
         </div>
       </q-list>
@@ -27,7 +40,9 @@
           <div class="q-mt-md">
             <q-icon name="fas fa-chevron-up" size="md" />
           </div>
-          <div class="q-my-sm text-h5 q-pa-sm">0</div>
+          <div class="q-my-sm text-h5 q-pa-sm" v-if="question.upvotes">
+            {{ question.upvotes.length }}
+          </div>
 
           <div class="">
             <q-icon name="fas fa-chevron-down" size="md" />
@@ -35,30 +50,24 @@
         </div>
 
         <div class="col-sm-10 col-xs-10 col-md-10 col-lg-11 col-xl-11">
-          <div class="q-my-sm text-body1">
-            Recently I used dot Trace profiler to find the bottlenecks in my
-            application. Suddenly, I have seen that in most of the places which
-            are taking more time and more cpu usage to is ...Recently I used dot
-            Trace profiler to find the bottlenecks in my application. Suddenly,
-            I have seen that in most of the places which are taking more time
-            and more cpu usage to is Recently I used dot Trace profiler to find
-            the bottlenecks in my application. Suddenly, I have seen that in
-            most of the places which are taking more time and more cpu usage to
-            is Recently I used dot Trace profiler to find the bottlenecks in my
-            application. Suddenly, I have seen that in most of the places which
-            are taking more time and more cpu usage to is Recently I used dot
-            Trace profiler to find the bottlenecks in my application. Suddenly,
-            I have seen that in most of the places which are taking more time
-            and more cpu usage to is Recently I used dot Trace profiler to find
-            the bottlenecks in my application. Suddenly, I have seen that in
-            most of the places which are taking more time and more cpu usage to
-            is Recently I used dot Trace profiler to find the bottlenecks in my
-            application. Suddenly, I have seen that in most of the places which
-            are taking more time and more cpu usage to is
-          </div>
+          <div class="q-my-sm text-body1" v-html="question.body"></div>
 
           <div class="text-subtitle2 q-gutter-md q-my-lg q-mb-xs">
-            <span class="bg-teal-1 q-pa-sm">javascript</span>
+            <span
+              class="bg-teal-1 q-pa-sm"
+              v-for="(tag, index) in question.tags"
+              :key="index"
+            >
+              <router-link
+                class="q-mx-sm text-caption"
+                v-bind:to="{
+                  name: 'tagged',
+                  params: { tag: tag },
+                }"
+                v-html="tag"
+              >
+              </router-link
+            ></span>
           </div>
         </div>
       </div>
@@ -189,14 +198,56 @@
 </template>
 
 <script>
+import moment from "moment";
+import questionService from "../services/questionService";
 export default {
   data() {
     return {
       current: "",
+      question: {},
+      id: this.$route.params.id,
       qeditor:
         "<pre>Check out the two different types of dropdowns" +
         ' in each of the "Align" buttons.</pre> ',
     };
   },
+  methods: {
+    async getSinglePost() {
+      try {
+        await questionService.showQuestion(this.id).then((response) => {
+          this.question = response.data.data;
+          console.log("first", response.data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created: function () {
+    this.moment = moment;
+  },
+  mounted() {
+    this.getSinglePost();
+  },
 };
 </script>
+<style scoped>
+.text-body1{
+  text-overflow: inherit;
+text-overflow: initial;
+text-overflow: revert;
+text-overflow: revert-layer;
+text-overflow: unset;
+}
+a {
+  background-color: transparent;
+  text-decoration: none;
+  color: #000;
+}
+a:hover {
+  color: #f53f7b;
+}
+a:focus {
+  color: #f53f7b;
+}
+</style>

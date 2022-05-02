@@ -44,11 +44,25 @@
     </div>
 
     <div class="row q-col-gutter-sm">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+      <div
+        class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-3"
+        v-for="(Tag, index) in Tags"
+        :key="index"
+      >
         <q-card class="my-card" flat bordered>
           <q-card-section>
             <div class="text-subtitle2 q-mt-sm q-mb-xs">
-              <span class="bg-teal-1 q-pa-sm">javascript</span>
+              <span class="bg-teal-1 q-pa-sm text-primary">
+                <router-link
+                  class="q-mx-sm text-caption"
+                  v-bind:to="{
+                    name: 'tagged',
+                    params: { tag: Tag._id },
+                  }"
+                  v-html="Tag._id"
+                >
+                </router-link>
+              </span>
             </div>
             <div class="text-caption q-my-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -58,7 +72,7 @@
               <q-item>
                 <q-item-section thumbnail class="q-mr-xl">
                   <div class="">
-                    <q-item-label caption>2365634</q-item-label>
+                    <q-item-label caption> </q-item-label>
                     <q-item-label caption>Questions</q-item-label>
                   </div>
                 </q-item-section>
@@ -76,18 +90,50 @@
     </div>
   </div>
 </template>
+
 <script>
+import questionService from "../services/questionService";
 export default {
   data() {
     return {
+      Tags: [],
       keyword: "",
       sfClose: true,
     };
+  },
+  methods: {
+    async queryindex() {
+      try {
+        await questionService.getTags().then((response) => {
+          this.Tags = response.data.data;
+          console.log("first", response.data.data);
+        });
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+    viewPost(item_id) {
+      this.$router.push({ name: "blog", params: { id: item_id } });
+    },
+  },
+  async mounted() {
+    this.queryindex();
   },
 };
 </script>
 <style scoped>
 .text-body1 {
   width: 70%;
+}
+a {
+
+  text-decoration: none;
+
+}
+a:hover {
+  color: #f53f7b;
+}
+a:focus {
+  color: #f53f7b;
 }
 </style>

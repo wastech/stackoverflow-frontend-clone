@@ -96,71 +96,35 @@
         </q-item>
         <q-separator />
       </q-list>
-      <div class="q-pa-lg flex q-my-md flex-center">
-        <q-pagination
-          v-model.number="pagination.page"
-          :max="pagesNumber"
-          size="md"
-          :max-pages="6"
-          :boundary-links="true"
-          :to-fn="(page) => ({ query: { page: page } })"
-        />
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { api } from "boot/axios";
+import questionService from "../services/questionService";
 
 export default {
   // name: 'ComponentName',
   data() {
     return {
       questions: [],
-      perPage: null,
-      currentPage: null,
-      total: null,
-      totalPage: null,
-      page: null,
-      pagination: {},
-    };
-  },
-
-  watch: {
-    $route: "fetchData",
-  },
-  computed: {
-    pagesNumber() {
-      return Math.ceil(parseInt(this.total) / parseInt(this.perPage));
-    },
-  },
-  mounted() {
-    this.fetchData();
-    this.pagination = {
-      page: this.currentPage,
-      perPage: this.limit,
+      id: this.$route.params.tag,
     };
   },
 
   methods: {
-    async fetchData() {
+    async getPosts() {
       try {
-        this.pagination.page = this.$route.query.page;
-
-        await api
-          .get(`question`, {
-            params: {
-              page: this.pagination.page,
-            },
-          })
-          .then((response) => {
-            this.questions = response.data.data;
-            this.current_page = response.data.current_page;
-            this.perPage = response.data.limit;
-            this.total = response.data.total;
-          });
-      } catch (err) {}
+        await questionService.getTagged(this.id).then((response) => {
+          this.questions = response.data.data;
+          console.log("first", response.data.data);
+        });
+      } catch (err) {
+        console.log(err.response);
+      }
     },
+  },
+  async mounted() {
+    this.getPosts();
   },
 };
 </script>

@@ -2,13 +2,16 @@ import { api } from "boot/axios";
 
 export default {
   createPost(question) {
-    return api.post("questions", question);
+    return api.post("question", question);
   },
   getQuestions() {
-    return api.get("questions");
+    return api.get("question");
   },
-  showquestion(questionId) {
-    return api.get(`questions/${questionId}`);
+  getTags() {
+    return api.get("question/listTags");
+  },
+  showQuestion(questionId) {
+    return api.get(`question/${questionId}`);
   },
   sigleUserPosts(userId) {
     return api.get(`questions/userpost/${userId}`);
@@ -20,8 +23,8 @@ export default {
     return api.get(`questions/related/${relatedId}`);
   },
 
-  getTags(tagsId) {
-    return api.get(`questions/tags/${tagsId}`);
+  getTagged(tagsId) {
+    return api.get(`question/qtags/${tagsId}`);
   },
   addcomment(comment) {
     return api.post(`comments`, comment);
