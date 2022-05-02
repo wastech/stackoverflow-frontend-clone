@@ -1,7 +1,7 @@
 import { api } from "boot/axios";
 
 export default {
-  createPost(question) {
+  addQuestion(question) {
     return api.post("question", question);
   },
   getQuestions() {

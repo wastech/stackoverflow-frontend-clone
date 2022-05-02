@@ -71,21 +71,65 @@
           </div>
         </div>
       </div>
+      <q-separator></q-separator>
 
       <!-- comments box -->
       <div class="" style="max-width: 100%">
-        <q-input
-          v-model="text"
-          filled
-          :input-style="{ resize: 'none', height: '100%' }"
-          class="“full-height”"
-          type="textarea"
-          rows="1"
-          aria-placeholder="comments"
-        />
+        <form action="" @submit.prevent="onSubmit">
+          <q-input
+            v-model="body"
+            filled
+            class="“full-height”"
+            type="text"
+            aria-placeholder="comments"
+          />
+        </form>
       </div>
-      <div class="text-caption text-grey">Add a Comment</div>
-      <!-- answer question fform -->
+      <div class="text-caption text-grey" type>Add a Comment</div>
+
+      <q-separator></q-separator>
+      <!-- comments -->
+      <q-list>
+        <q-item v-for="(comment, index) in comments" :key="index">
+          <q-item-section>
+            <div>
+              <span class="q-mr-sm"> {{ index }}</span> {{ comment.body }} -
+              <span class="text-primary q-mx-sm" v-if="comment.user">{{
+                comment.user.username
+              }}</span>
+
+              <span class="text-grey">{{
+                moment(comment.created).fromNow()
+              }}</span>
+            </div>
+            <q-separator></q-separator
+          ></q-item-section>
+        </q-item>
+      </q-list>
+      <q-separator></q-separator>
+      <!-- Answers -->
+      <div
+        class="row q-col-gutter-sm q-my-md"
+        v-for="answer in answers"
+        :key="answer"
+      >
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-1 col-xl-1">
+          <div class="q-mt-xs">
+            <q-icon name="fas fa-chevron-up" size="sm" />
+          </div>
+          <div class="q-my-sm text-h5 q-pa-sm">0</div>
+
+          <div class="">
+            <q-icon name="fas fa-chevron-down" size="sm" />
+          </div>
+        </div>
+
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-11 col-xl-11">
+          <div class="q-my-sm text-body1" v-html="answer.answer"></div>
+        </div>
+        <q-separator></q-separator>
+      </div>
+      <!-- Answers -->
 
       <section>
         <q-card-section>
@@ -99,7 +143,7 @@
 
           <div class="" style="max-width: 100%">
             <q-editor
-              v-model="qeditor"
+              v-model="answer"
               :dense="$q.screen.lt.md"
               :toolbar="[
                 [
@@ -189,7 +233,13 @@
           </div>
 
           <div class="q-my-md">
-            <q-btn color="primary" size="md" label="Post Your Answer" no-caps />
+            <q-btn
+              color="primary"
+              size="md"
+              @click.prevent="Submit"
+              label="Post Your Answer"
+              no-caps
+            />
           </div>
         </q-card-section>
       </section>
@@ -200,22 +250,93 @@
 <script>
 import moment from "moment";
 import questionService from "../services/questionService";
+import commentService from "../services/commentService";
+import answerService from "../services/answerService";
 export default {
   data() {
     return {
       current: "",
+      comments: [],
+      answers: [],
+      answer: "",
       question: {},
+      body: "",
       id: this.$route.params.id,
-      qeditor:
-        "<pre>Check out the two different types of dropdowns" +
-        ' in each of the "Align" buttons.</pre> ',
     };
   },
   methods: {
+    async onSubmit() {
+      const comment = {
+        question: this.id,
+        body: this.body,
+      };
+      try {
+        await commentService.addcomment(comment).then((response) => {
+          this.$q.notify({
+            type: "positive",
+            timeout: 1000,
+            position: "center",
+            message: "Comment sent",
+          });
+          this.getComments();
+        });
+      } catch (error) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+          position: "center",
+          message: error.response.data.error,
+        });
+      }
+      this.body = "";
+    },
+    async Submit() {
+      const answerData = {
+        question: this.id,
+        answer: this.answer,
+      };
+      try {
+        await answerService.addAnswer(answerData).then((response) => {
+          this.$q.notify({
+            type: "positive",
+            timeout: 1000,
+            position: "center",
+            message: "Comment sent",
+          });
+          this.getAnswers();
+        });
+      } catch (error) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+          position: "center",
+          message: error.response.data.error,
+        });
+      }
+      this.answer = "";
+    },
     async getSinglePost() {
       try {
         await questionService.showQuestion(this.id).then((response) => {
           this.question = response.data.data;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getComments() {
+      try {
+        await commentService.getComments(this.id).then((response) => {
+          this.comments = response.data.data;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getAnswers() {
+      try {
+        await answerService.getAnswers(this.id).then((response) => {
+          this.answers = response.data.data;
           console.log("first", response.data);
         });
       } catch (err) {
@@ -228,16 +349,18 @@ export default {
   },
   mounted() {
     this.getSinglePost();
+    this.getComments();
+    this.getAnswers();
   },
 };
 </script>
 <style scoped>
-.text-body1{
+.text-body1 {
   text-overflow: inherit;
-text-overflow: initial;
-text-overflow: revert;
-text-overflow: revert-layer;
-text-overflow: unset;
+  text-overflow: initial;
+  text-overflow: revert;
+  text-overflow: revert-layer;
+  text-overflow: unset;
 }
 a {
   background-color: transparent;

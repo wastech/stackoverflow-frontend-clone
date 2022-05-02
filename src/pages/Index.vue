@@ -87,6 +87,22 @@
                   }}</q-item-section>
                 </q-item>
               </div>
+              <div class="col-md-4 self-end" v-else>
+                <q-item v-ripple>
+                  <q-item-section avatar>
+                    <q-avatar square>
+                      <img
+                        :src="question.user.image"
+                        :alt="question.user.username"
+                      />
+                    </q-avatar>
+                  </q-item-section>
+
+                  <q-item-section>{{
+                    question.user.username
+                  }}</q-item-section>
+                </q-item>
+              </div>
             </div>
           </q-item-section>
 
@@ -143,6 +159,7 @@ export default {
   },
 
   methods: {
+    
     async fetchData() {
       try {
         this.pagination.page = this.$route.query.page;
@@ -158,6 +175,7 @@ export default {
             this.current_page = response.data.current_page;
             this.perPage = response.data.limit;
             this.total = response.data.total;
+            console.log("first", this.questions);
           });
       } catch (err) {}
     },

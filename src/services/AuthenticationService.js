@@ -11,10 +11,6 @@ export default {
     return api().put("auth/updatedetails", credentials);
   },
 
-  // user() {
-  //   return api().get("auth/me");
-  // },
-
   users() {
     return api.get("/users");
   },

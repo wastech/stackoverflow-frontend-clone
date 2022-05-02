@@ -87,6 +87,20 @@
                   }}</q-item-section>
                 </q-item>
               </div>
+              <div class="col-md-4 self-end" v-else>
+                <q-item v-ripple>
+                  <q-item-section avatar>
+                    <q-avatar square>
+                      <img
+                        :src="question.user.image"
+                        :alt="question.user.username"
+                      />
+                    </q-avatar>
+                  </q-item-section>
+
+                  <q-item-section>{{ question.user.username }}</q-item-section>
+                </q-item>
+              </div>
             </div>
           </q-item-section>
 

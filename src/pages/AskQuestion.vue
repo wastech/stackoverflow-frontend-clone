@@ -13,7 +13,7 @@
         <div class="q-my-sm" style="max-width: 100%">
           <q-input
             outlined
-            v-model="text"
+            v-model="title"
             placeholder="e.g. Is there an R function for finding the index of an element in a vector"
           />
         </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="" style="max-width: 100%">
           <q-editor
-            v-model="qeditor"
+            v-model="body"
             :dense="$q.screen.lt.md"
             :toolbar="[
               [
@@ -124,7 +124,7 @@
         <div class="q-my-sm" style="max-width: 100%">
           <q-input
             outlined
-            v-model="text"
+            v-model="tags"
             placeholder="e.g.(Javascript, css, html"
           />
         </div>
@@ -132,21 +132,48 @@
     </q-card>
 
     <div class="button q-my-md">
-      <q-btn color="primary" label="Submit Your Question" no-caps />
+      <q-btn color="primary" label="Submit  Your Question"  @click.prevent="onSubmit" no-caps />
     </div>
   </div>
 </template>
 <script>
-import { ref } from "vue";
-
+import questionService from "../services/questionService";
 export default {
-  setup() {
+  data() {
     return {
-      qeditor: ref(
-        "<pre>Check out the two different types of dropdowns" +
-          ' in each of the "Align" buttons.</pre> '
-      ),
+      title: "",
+      body: "",
+      tags: [],
     };
+  },
+  methods: {
+    async onSubmit() {
+      const data = {
+        title: this.title,
+        body: this.body,
+        tags: this.tags,
+      };
+      console.log("first", data);
+      try {
+        await questionService.addQuestion(data).then((response) => {
+          this.$q.notify({
+            type: "positive",
+            timeout: 1000,
+            position: "center",
+            message: "Comment sent",
+          });
+          this.getComments();
+        });
+      } catch (error) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+          position: "center",
+          message: error.response.data.error,
+        });
+      }
+      this.body = "";
+    },
   },
 };
 </script>
