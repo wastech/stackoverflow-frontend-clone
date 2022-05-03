@@ -43,11 +43,11 @@
               <q-item-label
                 class="q- my-sm text-blue-4 text-primary text-capitalize text-weight-bold"
               >
-                <div class="text-body2" v-html="question.title"></div>
+                <div class="text-body2 " v-html="question.title"></div>
               </q-item-label>
             </router-link>
             <q-item-label caption lines="3" class="q-my-sm">
-              <div class="text-body1" v-html="question.body"></div>
+              <div class="text-body1 text-dark" v-html="question.body"></div>
             </q-item-label>
 
             <div class="row q-col-gutter-sm">
