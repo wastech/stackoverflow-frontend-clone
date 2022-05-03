@@ -9,26 +9,28 @@
       </div>
       <q-space />
       <div style="max-width: 100%">
-        <q-input
-          outlined
-          v-model="keyword"
-          placeholder="Search"
-          dense
-          hide-bottom-space
-          class="search-field"
-          :class="{ 'sb-closed': sfClose }"
-          @blur="
-            sfClose = true;
-            keyword = '';
-          "
-          @focus="sfClose = false"
-          clearable
-          clear-icon="close"
-        >
-          <template v-slot:prepend>
-            <q-icon name="search" class="cursor-pointer" />
-          </template>
-        </q-input>
+        <form @submit.prevent="checkName">
+          <q-input
+            outlined
+            v-model="keyword"
+            placeholder="Search"
+            dense
+            hide-bottom-space
+            class="search-field"
+            :class="{ 'sb-closed': sfClose }"
+            @blur="
+              sfClose = true;
+              keyword = '';
+            "
+            @focus="sfClose = false"
+            clearable
+            clear-icon="close"
+          >
+            <template v-slot:prepend>
+              <q-icon name="search" class="cursor-pointer" />
+            </template>
+          </q-input>
+        </form>
       </div>
       <q-space />
       <q-tabs>
@@ -47,6 +49,15 @@ export default {
       sfClose: true,
     };
   },
+   methods: {
+   
+    checkName() {
+      if (!this.keyword) {
+        console.log("please enter your keyword");
+      } else {
+        this.$router.push(`/search/${this.keyword}`);
+      }
+    }}
 };
 </script>
 

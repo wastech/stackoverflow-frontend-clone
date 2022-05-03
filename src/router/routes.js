@@ -8,7 +8,7 @@ const routes = [
 
       { path: "/users", component: () => import("pages/Users.vue") },
       {
-        path: "/search",
+        path: "/search/:keyword",
         name: "search",
         component: () => import("pages/searchPage.vue"),
       },

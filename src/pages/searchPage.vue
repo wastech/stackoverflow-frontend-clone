@@ -7,8 +7,8 @@
             <div class="title">
               <div class="text-h4 text-weight-medium">Search Results</div>
             </div>
-            <div class="text-caption q-my-md">Results for xc</div>
-            <div class="text-subtitle2">6,765 results</div>
+            <div class="text-caption q-my-md">Results for {{keyword}}</div>
+            <div class="text-subtitle2">{{questions.length}} results</div>
           </div>
           <div class="col-md-4 offset-md-4">
             <q-btn color="primary" size="md" label="Ask Questions" no-caps />
@@ -118,16 +118,7 @@
         </q-item>
         <q-separator />
       </q-list>
-      <div class="q-pa-lg flex q-my-md flex-center">
-        <q-pagination
-          v-model.number="pagination.page"
-          :max="pagesNumber"
-          size="md"
-          :max-pages="6"
-          :boundary-links="true"
-          :to-fn="(page) => ({ query: { page: page } })"
-        />
-      </div>
+    
     </div>
   </div>
 </template>
@@ -139,49 +130,22 @@ export default {
   data() {
     return {
       questions: [],
-      perPage: null,
-      currentPage: null,
-      total: null,
-      totalPage: null,
-      page: null,
-      pagination: {},
+      keyword: this.$route.params.keyword,
     };
   },
 
-  watch: {
-    $route: "fetchData",
-  },
-  computed: {
-    pagesNumber() {
-      return Math.ceil(parseInt(this.total) / parseInt(this.perPage));
-    },
-  },
   mounted() {
     this.fetchData();
-    this.pagination = {
-      page: this.currentPage,
-      perPage: this.limit,
-    };
   },
 
   methods: {
     async fetchData() {
       try {
-        this.pagination.page = this.$route.query.page;
+        await api.get(`question?keyword=${this.keyword}`).then((response) => {
+          this.questions = response.data.data;
 
-        await api
-          .get(`question`, {
-            params: {
-              page: this.pagination.page,
-            },
-          })
-          .then((response) => {
-            this.questions = response.data.data;
-            this.current_page = response.data.current_page;
-            this.perPage = response.data.limit;
-            this.total = response.data.total;
-            console.log("first", this.questions);
-          });
+          console.log("first", this.questions);
+        });
       } catch (err) {}
     },
   },

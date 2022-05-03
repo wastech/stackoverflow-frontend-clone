@@ -3,7 +3,7 @@
     <div class="title">
       <div class="text-h4 text-weight-medium">Users</div>
     </div>
-<div class="text-caption text-bold q-my-sm">{{total}} Users</div>
+    <div class="text-caption text-bold q-my-sm">{{ total }} Users</div>
     <div class="row justify-between q-my-lg">
       <div class="col-md-4">
         <div>
@@ -85,7 +85,6 @@
       <q-pagination
         v-model="pagination.page"
         :max="pagesNumber"
-        v-if="users.length > 31"
         size="md"
         :boundary-links="true"
         :to-fn="(page) => ({ query: { page: page } })"
@@ -204,6 +203,5 @@ export default {
 }
 a {
   text-decoration: none;
-  
 }
 </style>
