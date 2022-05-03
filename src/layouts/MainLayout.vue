@@ -2,7 +2,7 @@
   <div class="main q-my-xl">
     <div class="layout">
       <div class="row q-col-gutter-xl">
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 left___side">
+        <div class="col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2 left___side">
           <q-list>
             <q-item-label header> Home </q-item-label>
 
@@ -13,7 +13,7 @@
             />
           </q-list>
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+        <div class="col-xs-10 col-sm-10 col-md-9 col-lg-10 col-xl-10">
           <q-page-container>
             <router-view />
           </q-page-container>

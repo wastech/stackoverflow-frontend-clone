@@ -33,7 +33,7 @@
         </form>
       </div>
       <q-space />
-      <q-tabs>
+      <q-tabs  v-if="!$store.state.token">
         <q-btn flat round dense icon="bluetooth" class="q-mr-sm" />
         <q-btn name="login " to="/login" label="login" />
         <q-btn name="register" to="/signup" label="register" />
@@ -42,12 +42,16 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       keyword: "",
       sfClose: true,
     };
+  },
+   computed: {
+    ...mapState(["isUserLoggedIn"]),
   },
    methods: {
    

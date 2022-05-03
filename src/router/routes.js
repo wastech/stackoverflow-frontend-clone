@@ -1,7 +1,11 @@
+import store from "../store";
 const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       { path: "", component: () => import("pages/Index.vue") },
       { path: "/tags", component: () => import("pages/Tags.vue") },
@@ -32,11 +36,32 @@ const routes = [
 
   {
     path: "/login",
+    name: "login",
     component: () => import("pages/Login.vue"),
+    beforeEnter(to, from, next) {
+      // check status, if logged in can't go to login page
+      if (!store.state.isUserLoggedIn) {
+        next();
+      } else {
+        next({
+          name: "dashboard",
+        });
+      }
+    },
   },
   {
     path: "/signup",
     component: () => import("pages/Signup.vue"),
+    beforeEnter(to, from, next) {
+      // check status, if logged in can't go to login page
+      if (!store.state.isUserLoggedIn) {
+        next();
+      } else {
+        next({
+          name: "login",
+        });
+      }
+    },
   },
   {
     path: "/question/ask",

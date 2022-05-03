@@ -6,6 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
+import store from "../store";
 
 /*
  * If not building with SSR mode, you can
@@ -35,5 +36,25 @@ export default route(function (/* { store, ssrContext } */) {
     ),
   });
 
+   Router.beforeEach((to, from, next) => {
+     if (to.matched.some((record) => record.meta.requiresAuth)) {
+       if (!store.state.isUserLoggedIn) {
+         const loginpath = window.location.pathname;
+         next({ name: "login", query: { from: loginpath } });
+       } else {
+         next();
+       }
+     } else if (to.matched.some((record) => record.meta.requiresGuest)) {
+       if (store.state.isUserLoggedIn) {
+         next("/");
+       } else {
+         next();
+       }
+     } else {
+       next();
+     }
+   });
+  
+  
   return Router;
 });

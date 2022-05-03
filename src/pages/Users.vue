@@ -1,94 +1,97 @@
 <template>
-  <div class="">
-    <div class="title">
-      <div class="text-h4 text-weight-medium">Users</div>
-    </div>
-    <div class="text-caption text-bold q-my-sm">{{ total }} Users</div>
-    <div class="row justify-between q-my-lg">
-      <div class="col-md-4">
-        <div>
-          <q-input
-            outlined
-            v-model="keyword"
-            placeholder="Filter user"
-            dense
-            hide-bottom-space
-            class="search-field"
-            :class="{ 'sb-closed': sfClose }"
-            @blur="
-              sfClose = true;
-              keyword = '';
-            "
-            @focus="sfClose = false"
-            clearable
-            clear-icon="close"
-          >
-            <template v-slot:prepend>
-              <q-icon name="search" class="cursor-pointer" />
-            </template>
-          </q-input>
-        </div>
+  <div class="main">
+    <div class="text-captio" v-if="showLoading"></div>
+    <div class="" v-else>
+      <div class="title">
+        <div class="text-h4 text-weight-medium">Users</div>
       </div>
-      <div class="col-md-4">
-        <div class=" ">
-          <q-btn outline color="grey-6" label="Popular" no-caps />
-          <q-btn outline color="grey-6" label="Name" no-caps />
-          <q-btn outline color="grey-6" label="New" no-caps />
-          <br />
-        </div>
-      </div>
-    </div>
-
-    <div class="row q-col-gutter-sm">
-      <div
-        class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xl-3"
-        v-for="user in users"
-        :key="user.id"
-      >
-        <q-item>
-          <q-item-section top avatar>
-            <router-link
-              v-bind:to="{
-                name: 'user',
-                params: { id: user._id },
-              }"
+      <div class="text-caption text-bold q-my-sm">{{ total }} Users</div>
+      <div class="row justify-between q-my-lg">
+        <div class="col-md-4">
+          <div>
+            <q-input
+              outlined
+              v-model="keyword"
+              placeholder="Filter user"
+              dense
+              hide-bottom-space
+              class="search-field"
+              :class="{ 'sb-closed': sfClose }"
+              @blur="
+                sfClose = true;
+                keyword = '';
+              "
+              @focus="sfClose = false"
+              clearable
+              clear-icon="close"
             >
-              <q-avatar rounded size="70px">
-                <img :src="user.image" :alt="user.username" />
-              </q-avatar>
-            </router-link>
-          </q-item-section>
+              <template v-slot:prepend>
+                <q-icon name="search" class="cursor-pointer" />
+              </template>
+            </q-input>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class=" ">
+            <q-btn outline color="grey-6" label="Popular" no-caps />
+            <q-btn outline color="grey-6" label="Name" no-caps />
+            <q-btn outline color="grey-6" label="New" no-caps />
+            <br />
+          </div>
+        </div>
+      </div>
 
-          <q-item-section>
-            <q-item-label class="text-primary text-weight-bold">
+      <div class="row q-col-gutter-sm">
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xl-3"
+          v-for="user in users"
+          :key="user.id"
+        >
+          <q-item>
+            <q-item-section top avatar>
               <router-link
                 v-bind:to="{
                   name: 'user',
                   params: { id: user._id },
                 }"
-                >{{ user.username }}
+              >
+                <q-avatar rounded size="70px">
+                  <img :src="user.image" :alt="user.username" />
+                </q-avatar>
               </router-link>
-            </q-item-label>
-            <q-item-label caption>{{ user.address.address }}</q-item-label>
-            <!-- <q-item-label caption class="text-weight-bold"
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label class="text-primary text-weight-bold">
+                <router-link
+                  v-bind:to="{
+                    name: 'user',
+                    params: { id: user._id },
+                  }"
+                  >{{ user.username }}
+                </router-link>
+              </q-item-label>
+              <q-item-label caption>{{ user.address.address }}</q-item-label>
+              <!-- <q-item-label caption class="text-weight-bold"
               >{{user.phone}}</q-item-label
             > -->
-            <q-item-label caption class="text-primary">
-              {{ user.address.city }}</q-item-label
-            >
-          </q-item-section>
-        </q-item>
+              <q-item-label caption class="text-primary">
+                {{ user.address.city }}</q-item-label
+              >
+            </q-item-section>
+          </q-item>
+        </div>
       </div>
-    </div>
 
-    <div class="q-pa-lg flex flex-center q-mt-sm">
-      <q-pagination
-        v-model="pagination.page"
-        :max="pagesNumber"
-        size="md"
-        :boundary-links="true"
-        :to-fn="(page) => ({ query: { page: page } })"
-      />
+      <div class="q-pa-lg flex flex-center q-mt-sm">
+        <q-pagination
+          v-model="pagination.page"
+          :max="pagesNumber"
+          size="md"
+          :boundary-links="true"
+          :to-fn="(page) => ({ query: { page: page } })"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -101,6 +104,7 @@ export default {
   data() {
     return {
       users: [],
+      showLoading: false,
       perPage: null,
       currentPage: null,
       total: null,
@@ -129,6 +133,8 @@ export default {
     },
   },
   mounted() {
+    this.$q.loading.show();
+    this.showLoading = true;
     this.fetchData();
     this.debounceName = debounce(this.fetchData, 500);
   },
@@ -165,7 +171,11 @@ export default {
               this.total = response.data.total;
             });
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        this.$q.loading.hide();
+        this.showLoading = false;
+      }
     },
     // viewPost(item_id) {
     //   this.$router.push({ name: "blog", params: { id: item_id } });

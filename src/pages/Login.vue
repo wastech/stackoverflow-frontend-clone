@@ -22,7 +22,7 @@
               <div class="text-capton text-bold">Email</div>
               <q-input
                 outlined
-                  ref="email"
+                ref="email"
                 v-model="email"
                 lazy-rules
                 :rules="[
@@ -66,7 +66,8 @@
           </q-card>
 
           <div class="text-subtitle2 text-center q-my-lg">
-            Don’t have an account? <span class="text-primary"><a href="/signup">Sign up</a> </span>
+            Don’t have an account?
+            <span class="text-primary"><a href="/signup">Sign up</a> </span>
           </div>
         </div>
       </q-page>
@@ -100,6 +101,13 @@ export default {
         });
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
+        if (this.$route.query.from) {
+          return this.$router.replace(this.$route.query.from);
+        } else {
+          this.$router.push({
+            path: "/",
+          });
+        }
         this.$q.notify({
           type: "positive",
           timeout: 1000,
