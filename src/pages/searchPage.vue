@@ -14,7 +14,7 @@
               <div class="text-subtitle2">{{ questions.length }} results</div>
             </div>
             <div class="col-md-4 offset-md-4">
-              <q-btn color="primary" size="md" label="Ask Questions" no-caps />
+              <q-btn color="primary" size="md" to="/question/ask"  label="Ask Questions" no-caps />
             </div>
           </div>
         </q-list>

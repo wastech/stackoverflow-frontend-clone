@@ -1,5 +1,6 @@
 import store from "../store";
 const routes = [
+  
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
@@ -44,7 +45,7 @@ const routes = [
         next();
       } else {
         next({
-          name: "dashboard",
+          path: "/",
         });
       }
     },

@@ -2,7 +2,7 @@
   <div class="main">
     <div class="text-captio" v-if="showLoading"></div>
     <div class="row" v-else>
-      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-9 col-xl-9">
+      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
         <q-list class="q-pa-md doc-container">
           <div class="row">
             <div class="col-md-4">
@@ -11,7 +11,13 @@
               </div>
             </div>
             <div class="col-md-4 offset-md-4">
-              <q-btn color="primary" size="md" label="Ask Questions" no-caps />
+              <q-btn
+                color="primary"
+                size="md"
+                to="/question/ask"
+                label="Ask Questions"
+                no-caps
+              />
             </div>
           </div>
         </q-list>
@@ -25,8 +31,14 @@
                 <q-item-label overline class="q-my-sm text-black text-overline">
                   4 votes
                 </q-item-label>
-                <q-item-label class="q-my-sm text-overline text-mute">
+                <q-item-label
+                  class="q-my-sm text-overline text-mute"
+                  v-if="question.answer_count > 0"
+                >
                   {{ question.answer_count }} answers
+                </q-item-label>
+                <q-item-label class="q-my-sm text-overline text-mute" v-else>
+                  {{ question.answers }} answers
                 </q-item-label>
                 <q-item-label
                   caption
@@ -87,9 +99,15 @@
                       </q-avatar>
                     </q-item-section>
 
-                    <q-item-section>{{
-                      question.owner.display_name
-                    }}</q-item-section>
+                    <q-item-section>
+                      <router-link
+                        v-bind:to="{
+                          name: 'user',
+                          params: { id: question._id },
+                        }"
+                        >{{ question.owner.display_name }}
+                      </router-link></q-item-section
+                    >
                   </q-item>
                 </div>
                 <div class="col-md-4 self-end" v-else>
@@ -103,9 +121,15 @@
                       </q-avatar>
                     </q-item-section>
 
-                    <q-item-section>{{
-                      question.user.username
-                    }}</q-item-section>
+                    <q-item-section>
+                      <router-link
+                        v-bind:to="{
+                          name: 'user',
+                          params: { id: question._id },
+                        }"
+                        >{{ question.user.username }}
+                      </router-link></q-item-section
+                    >
                   </q-item>
                 </div>
               </div>
