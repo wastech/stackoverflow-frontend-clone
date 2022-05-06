@@ -22,75 +22,53 @@
           </q-item-label>
         </q-item-section>
       </q-item>
-
-      <div class="row q-my-xl q-col-gutter-md">
-        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+ <!-- new section -->
+      <div class="row q-my-xl q-col-gutter-lg">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 col-xl-6 q-my-md">
           <div class="title">
-            <div class="text-h6">Stats</div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
-          <div class="text-h6">About</div>
-          <div class="text-body2">
-            {{ item.username }} ,{{ item.university }}
+            <div class="text-h6 q-my-md">Answers</div>
           </div>
 
-          <section class="q-my-xl">
-            <div class="text-h6 q-my-md">Top tags</div>
+          <q-list class="rounded-borders" bordered separator>
+            <q-item>
+              <q-item-section avatar>
+                <q-item-label>
+                  <q-btn outline color="grey" label="0" no-caps
+                /></q-item-label>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label lines="1" class="text-primary"
+                  >Reputation is how the ommunity thanks community thanks
+                  you</q-item-label
+                >
+              </q-item-section>
+
+              <q-item-section side>
+                <span>23, 4,2016</span>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-6 col-xl-6 q-my-md">
+          <section class="">
+            <div class="text-h6 q-my-md">Questions</div>
 
             <q-list class="rounded-borders" bordered separator>
               <q-item>
+                <q-item-section avatar>
+                  <q-item-label>
+                    <q-btn outline color="grey" label="0" no-caps
+                  /></q-item-label>
+                </q-item-section>
                 <q-item-section>
-                  <q-item-label lines="1">aremu</q-item-label>
+                  <q-item-label lines="1" class="text-primary"
+                    >Reputation is how the ommunity thanks community thanks
+                    you</q-item-label
+                  >
                 </q-item-section>
 
                 <q-item-section side>
-                  <div class="text-grey-8 q-gutter-xs">
-                    <q-btn
-                      size="md"
-                      flat
-                      dense
-                      round
-                      color="green"
-                      icon="phone"
-                    />
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label lines="1">aremu</q-item-label>
-                </q-item-section>
-
-                <q-item-section side>
-                  <div class="text-grey-8 q-gutter-xs">
-                    <q-btn
-                      size="md"
-                      flat
-                      dense
-                      round
-                      color="green"
-                      icon="phone"
-                    />
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label lines="1">aremu</q-item-label>
-                </q-item-section>
-
-                <q-item-section side>
-                  <div class="text-grey-8 q-gutter-xs">
-                    <q-btn
-                      size="md"
-                      flat
-                      dense
-                      round
-                      color="green"
-                      icon="phone"
-                    />
-                  </div>
+                  <span>23, 4,2016</span>
                 </q-item-section>
               </q-item>
             </q-list>

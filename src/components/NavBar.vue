@@ -71,9 +71,10 @@ export default {
       this[`loading`] = true;
       // simulate a delay
       setTimeout(() => {
+        this.$router.push(`/profile`);
         // we're done, we reset loading state
         this[`loading`] = false;
-      }, 3000);
+      }, 1000);
     },
     checkName() {
       if (!this.keyword) {

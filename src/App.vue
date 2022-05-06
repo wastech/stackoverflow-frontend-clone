@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="bg-grey-2">
+  <q-layout class="bg-grey-2" >
     <nav-bar />
     <router-view :key="$route.path" />
   </q-layout>
