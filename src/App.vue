@@ -1,15 +1,16 @@
 <template>
-  <q-layout>
+  <q-layout class="bg-grey-2">
     <nav-bar />
     <router-view :key="$route.path" />
   </q-layout>
 </template>
 <script>
-import NavBar from "./components/NavBar.vue";
-import { defineComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 
-export default defineComponent({
-  components: { NavBar },
+export default {
+  components: {
+    NavBar: defineAsyncComponent(() => import("components/NavBar.vue")),
+  },
   name: "App",
-});
+};
 </script>

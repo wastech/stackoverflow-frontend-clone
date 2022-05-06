@@ -122,14 +122,8 @@
                     </q-item-section>
 
                     <q-item-section>
-                      <router-link
-                        v-bind:to="{
-                          name: 'user',
-                          params: { id: question._id },
-                        }"
-                        >{{ question.user.username }}
-                      </router-link></q-item-section
-                    >
+                      {{ question.user.username }}
+                    </q-item-section>
                   </q-item>
                 </div>
               </div>

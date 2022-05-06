@@ -156,6 +156,7 @@ export default {
               this.current_page = response.data.current_page;
               this.perPage = response.data.limit;
               this.total = response.data.total;
+           
             });
         } else {
           await api

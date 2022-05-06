@@ -4,7 +4,7 @@
       <div class="row q-col-gutter-xl">
         <div class="col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2 left___side">
           <q-list>
-            <q-item-label header> Home </q-item-label>
+            <q-item-label exact header><a href="/">Home</a> </q-item-label>
 
             <EssentialLink
               v-for="link in essentialLinks"
@@ -14,7 +14,7 @@
           </q-list>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-9 col-lg-10 col-xl-10">
-          <q-page-container>
+          <q-page-container >
             <router-view />
           </q-page-container>
         </div>
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
+
 
 const linksList = [
   {
     title: "Questions ",
-    link: "/",
+    link: "/questions",
 
     icon: "school",
   },
@@ -43,13 +43,15 @@ const linksList = [
   },
 ];
 
-import { defineComponent, ref } from "vue";
+import { defineComponent, defineAsyncComponent,ref } from "vue";
 
 export default defineComponent({
   name: "MainLayout",
 
   components: {
-    EssentialLink,
+    EssentialLink: defineAsyncComponent(() =>
+      import("components/EssentialLink")
+    ),
   },
 
   setup() {
@@ -73,5 +75,9 @@ export default defineComponent({
 .left___side {
   border-right: 1px solid #ccc !important;
   height: 100vh;
+}
+a {
+  text-decoration: none;
+  color: #000;
 }
 </style>

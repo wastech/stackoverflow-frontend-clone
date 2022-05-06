@@ -1,6 +1,5 @@
 import store from "../store";
 const routes = [
-  
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
@@ -9,6 +8,7 @@ const routes = [
     },
     children: [
       { path: "", component: () => import("pages/Index.vue") },
+      { path: "/questions", component: () => import("pages/Index.vue") },
       { path: "/tags", component: () => import("pages/Tags.vue") },
 
       { path: "/users", component: () => import("pages/Users.vue") },

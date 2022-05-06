@@ -4,6 +4,9 @@ export default {
   addQuestion(question) {
     return api.post("question", question);
   },
+  upvote(upvote) {
+    return api.post(`question/upvote/${upvote}`);
+  },
   getQuestions() {
     return api.get("question");
   },

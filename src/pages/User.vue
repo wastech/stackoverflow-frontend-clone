@@ -107,8 +107,8 @@ export default {
   data() {
     return {
       item: {},
-      name: "",
-      body: "",
+      // name: "",
+      // body: "",
 
       id: this.$route.params.id,
     };
@@ -121,10 +121,10 @@ export default {
       try {
         await AuthenticationService.user(this.id).then((response) => {
           this.item = response.data.data;
-          console.log("first", this.item);
+          console.log("first", response.data);
         });
       } catch (err) {
-        console.log(err);
+        console.log(err.response);
       }
     },
   },

@@ -40,7 +40,7 @@
         <q-separator />
         <div class="row q-col-gutter-sm q-my-md">
           <div class="col-sm-2 col-xs-2 col-md-2 col-lg-1 col-xl-1">
-            <div class="q-mt-md">
+            <div class="q-mt-md" @click="like">
               <q-icon name="fas fa-chevron-up" size="md" />
             </div>
             <div class="q-my-sm text-h5 q-pa-sm" v-if="question.upvotes">
@@ -143,36 +143,37 @@
               <span class="text-primary">Twitter</span> , or
               <span class="text-primary">Facebook</span>. Your Answer
             </div>
+            <q-form class="q-gutter-md" @submit.prevent="Submit">
+              <div class="" style="max-width: 100%">
+               
+                <q-editor
+                  v-model="answer"
+                  :dense="$q.screen.lt.md"
+                  :toolbar="toolbar"
+                  :fonts="{
+                    arial: 'Arial',
+                    arial_black: 'Arial Black',
+                    comic_sans: 'Comic Sans MS',
+                    courier_new: 'Courier New',
+                    impact: 'Impact',
+                    lucida_grande: 'Lucida Grande',
+                    times_new_roman: 'Times New Roman',
+                    verdana: 'Verdana',
+                  }"
+                >
+                </q-editor>
+              </div>
 
-            <div class="" style="max-width: 100%">
-              <q-editor
-                v-model="answer"
-                :dense="$q.screen.lt.md"
-                :toolbar="toolbar"
-                :fonts="{
-                  arial: 'Arial',
-                  arial_black: 'Arial Black',
-                  comic_sans: 'Comic Sans MS',
-                  courier_new: 'Courier New',
-                  impact: 'Impact',
-                  lucida_grande: 'Lucida Grande',
-                  times_new_roman: 'Times New Roman',
-                  verdana: 'Verdana',
-                }"
-              >
-              </q-editor>
-            </div>
-
-            <div class="q-my-md">
-              <q-btn
-                color="primary"
-                size="md"
-                type="submit"
-                @click.prevent="Submit"
-                label="Post Your Answer"
-                no-caps
-              />
-            </div>
+              <div class="q-my-md">
+                <q-btn
+                  color="primary"
+                  size="md"
+                  type="submit"
+                  label="Post Your Answer"
+                  no-caps
+                />
+              </div>
+            </q-form>
           </q-card-section>
         </section>
       </div>
@@ -181,11 +182,18 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueDOMPurifyHTML from "vue-dompurify-html";
+
 import moment from "moment";
 import questionService from "../services/questionService";
 import commentService from "../services/commentService";
 import answerService from "../services/answerService";
 export default {
+  components: {
+    // eslint-disable-next-line
+    VueDOMPurifyHTML,
+  },
   data() {
     return {
       current: "",
@@ -264,7 +272,10 @@ export default {
       id: this.$route.params.id,
     };
   },
+
   methods: {
+   
+
     async onSubmit() {
       const comment = {
         question: this.id,
@@ -318,8 +329,8 @@ export default {
       this.answer = "";
     },
     async getSinglePost() {
-      this.$q.loading.show();
-      this.showLoading = true;
+      // this.$q.loading.show();
+      // this.showLoading = true;
       try {
         await questionService.showQuestion(this.id).then((response) => {
           this.question = response.data.data;
@@ -327,7 +338,30 @@ export default {
       } catch (err) {
         console.log(err);
       } finally {
-        this.$q.loading.hide();
+        // this.$q.loading.hide();
+      }
+    },
+
+     async like() {
+      try {
+        await questionService.upvote(this.id).then((response) => {
+          this.$q.notify({
+            type: "positive",
+            timeout: 1000,
+            position: "center",
+            message: response.data.message,
+          });
+          this.getSinglePost();
+          console.log("first", response.data);
+        });
+      } catch (error) {
+        this.$q.notify({
+          type: "negative",
+          timeout: 1000,
+          position: "center",
+          message: error.response,
+        });
+        console.log("first", error);
       }
     },
     async getComments() {
