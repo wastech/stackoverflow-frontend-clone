@@ -33,11 +33,22 @@
         </form>
       </div>
       <q-space />
-      <q-tabs  v-if="!$store.state.token">
+      <q-tabs v-if="!$store.state.token">
         <q-btn flat round dense icon="bluetooth" class="q-mr-sm" />
         <q-btn name="login " to="/login" label="login" />
         <q-btn name="register" to="/signup" label="register" />
       </q-tabs>
+      <q-btn
+        round
+        :loading="loading"
+        color="brown"
+        @click="simulateProgress(4)"
+        icon="far fa-user-circle"
+      >
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
+      </q-btn>
     </q-toolbar>
   </div>
 </template>
@@ -48,20 +59,30 @@ export default {
     return {
       keyword: "",
       sfClose: true,
+      loading: false,
     };
   },
-   computed: {
+  computed: {
     ...mapState(["isUserLoggedIn"]),
   },
-   methods: {
-   
+  methods: {
+    simulateProgress(number) {
+      // we set loading state
+      this[`loading`] = true;
+      // simulate a delay
+      setTimeout(() => {
+        // we're done, we reset loading state
+        this[`loading`] = false;
+      }, 3000);
+    },
     checkName() {
       if (!this.keyword) {
         console.log("please enter your keyword");
       } else {
         this.$router.push(`/search/${this.keyword}`);
       }
-    }}
+    },
+  },
 };
 </script>
 

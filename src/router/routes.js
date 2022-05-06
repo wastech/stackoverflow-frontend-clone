@@ -12,6 +12,7 @@ const routes = [
       { path: "/tags", component: () => import("pages/Tags.vue") },
 
       { path: "/users", component: () => import("pages/Users.vue") },
+      { path: "/profile", component: () => import("pages/Profile.vue") },
       {
         path: "/search/:keyword",
         name: "search",

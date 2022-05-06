@@ -14,8 +14,8 @@ export default {
   users() {
     return api.get("/users");
   },
-  updatepass() {
-    return api().put("auth/updatepassword");
+  profile() {
+    return api.get("auth/me");
   },
   delete(userId) {
     return api().delete(`auth/admin/user/${userId}`);
