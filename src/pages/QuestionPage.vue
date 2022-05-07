@@ -1,8 +1,6 @@
 <template>
   <div class="main">
-    <div class="text-h6" v-if="showLoading"></div>
-
-    <div class="row" v-else>
+    <div class="row">
       <div class="col-sm-12 col-xs-12 col-md-12 col-lg-9 col-xl-9">
         <q-list class="q-pa-md doc-container">
           <div class="row justify-between q-col-gutter-sm">
@@ -145,7 +143,6 @@
             </div>
             <q-form class="q-gutter-md" @submit.prevent="Submit">
               <div class="" style="max-width: 100%">
-               
                 <q-editor
                   v-model="answer"
                   :dense="$q.screen.lt.md"
@@ -274,8 +271,6 @@ export default {
   },
 
   methods: {
-   
-
     async onSubmit() {
       const comment = {
         question: this.id,
@@ -342,7 +337,7 @@ export default {
       }
     },
 
-     async like() {
+    async like() {
       try {
         await questionService.upvote(this.id).then((response) => {
           this.$q.notify({
@@ -361,13 +356,13 @@ export default {
           position: "center",
           message: error.response,
         });
-        console.log("first", error);
       }
     },
     async getComments() {
       try {
         await commentService.getComments(this.id).then((response) => {
           this.comments = response.data.data;
+          this.getSinglePost();
         });
       } catch (err) {
         console.log(err);
@@ -380,6 +375,7 @@ export default {
       try {
         await answerService.getAnswers(this.id).then((response) => {
           this.answers = response.data.data;
+          this.getSinglePost();
         });
       } catch (err) {
         console.log(err);
