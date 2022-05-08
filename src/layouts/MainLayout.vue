@@ -1,8 +1,15 @@
 <template>
   <div class="main q-my-xl">
-    <div class="layout">
+    <div
+      class="layout"
+      v-bind:style="
+        $q.screen.lt.sm
+          ? { width: '100%', margin: '0 auto' }
+          : { width: ' 70%', margin: '0 auto' }
+      "
+    >
       <div class="row q-col-gutter-xl">
-        <div class="col-xs-2 col-sm-2 col-md-3 col-lg-2 col-xl-2 left___side">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 left___side">
           <q-list>
             <q-item-label exact header><a href="/">Home</a> </q-item-label>
 
@@ -13,8 +20,8 @@
             />
           </q-list>
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-9 col-lg-10 col-xl-10">
-          <q-page-container >
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10 col-xl-10 right">
+          <q-page-container>
             <router-view />
           </q-page-container>
         </div>
@@ -24,8 +31,6 @@
 </template>
 
 <script>
-
-
 const linksList = [
   {
     title: "Questions ",
@@ -43,7 +48,7 @@ const linksList = [
   },
 ];
 
-import { defineComponent, defineAsyncComponent,ref } from "vue";
+import { defineComponent, defineAsyncComponent, ref } from "vue";
 
 export default defineComponent({
   name: "MainLayout",
@@ -68,13 +73,14 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-.layout {
+/* .layout {
   width: 70%;
   margin: 0 auto;
-}
+} */
 .left___side {
   border-right: 1px solid #ccc !important;
   height: 100vh;
+
 }
 a {
   text-decoration: none;

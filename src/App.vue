@@ -1,7 +1,17 @@
 <template>
-  <q-layout class="bg-grey-2" >
-    <nav-bar />
-    <router-view :key="$route.path" />
+  <q-layout class="bg-grey-2">
+    <div class="mobile">
+      <div class="text-center" v-if="$q.screen.lt.sm">
+        <q-banner inline-actions class="text-white bg-red text-capitalize">
+          This Website can only display on destop
+        </q-banner>
+      </div>
+    
+    </div>
+      <div v-if="$q.screen.gt.sm">
+        <nav-bar />
+        <router-view :key="$route.path" />
+      </div>
   </q-layout>
 </template>
 <script>

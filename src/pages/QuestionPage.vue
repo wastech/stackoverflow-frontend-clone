@@ -179,9 +179,7 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueDOMPurifyHTML from "vue-dompurify-html";
-
+import { useMeta } from "quasar";
 import moment from "moment";
 import questionService from "../services/questionService";
 import commentService from "../services/commentService";
@@ -189,7 +187,14 @@ import answerService from "../services/answerService";
 export default {
   components: {
     // eslint-disable-next-line
-    VueDOMPurifyHTML,
+  },
+  meta() {
+    return {
+      title: this.pageTitle,
+      meta: {
+        description: this.postDescription,
+      },
+    };
   },
   data() {
     return {
@@ -266,6 +271,8 @@ export default {
       answer: "",
       question: {},
       body: "",
+      descriptionPage: "",
+      titlePage: "",
       id: this.$route.params.id,
     };
   },
@@ -313,12 +320,11 @@ export default {
           this.getAnswers();
         });
       } catch (error) {
-        console.log("first", error);
         this.$q.notify({
           type: "negative",
           timeout: 500,
           position: "center",
-          message: error,
+          message: error.response.data.error,
         });
       }
       this.answer = "";
@@ -329,6 +335,9 @@ export default {
       try {
         await questionService.showQuestion(this.id).then((response) => {
           this.question = response.data.data;
+          this.pageTitle = response.data.data.title;
+
+          this.postDescription = response.data.data.description;
         });
       } catch (err) {
         console.log(err);
@@ -347,14 +356,13 @@ export default {
             message: response.data.message,
           });
           this.getSinglePost();
-          console.log("first", response.data);
         });
       } catch (error) {
         this.$q.notify({
           type: "negative",
           timeout: 1000,
           position: "center",
-          message: error.response,
+          message: error.response.data.error,
         });
       }
     },

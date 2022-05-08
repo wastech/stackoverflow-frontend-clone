@@ -153,7 +153,10 @@
 import { api } from "boot/axios";
 
 export default {
-  // name: 'ComponentName',
+  name: 'Home',
+   meta: {
+    title: "Home",
+  },
   data() {
     return {
       showLoading: false,
@@ -166,7 +169,7 @@ export default {
       pagination: {},
     };
   },
-
+ 
   watch: {
     $route: "fetchData",
   },

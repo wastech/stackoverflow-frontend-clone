@@ -133,6 +133,11 @@
 import { api } from "boot/axios";
 
 export default {
+   meta() {
+        return {
+            title: "search page"
+        }
+    },
   // name: 'ComponentName',
   data() {
     return {

@@ -90,7 +90,12 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      config: {},
+      config: {
+        dark: false,
+        screen: {
+          bodyClasses: true,
+        },
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -103,7 +108,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Notify", "Loading"],
+      plugins: ["Notify", "Meta", "Loading"],
     },
 
     // animations: 'all', // --- includes all animations
@@ -111,29 +116,6 @@ module.exports = configure(function (ctx) {
     animations: [],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
-    ssr: {
-      pwa: true,
-
-      // manualStoreHydration: true,
-      // manualPostHydrationTrigger: true,
-
-      prodPort: 3000, // The default port that the production server should use
-      // (gets superseded if process.env.PORT is specified at runtime)
-
-      maxAge: 1000 * 60 * 60 * 24 * 30,
-      // Tell browser when a file from the server should expire from cache (in ms)
-
-      chainWebpackWebserver(chain) {
-        chain
-          .plugin("eslint-webpack-plugin")
-          .use(ESLintPlugin, [{ extensions: ["js"] }]);
-      },
-
-      middlewares: [
-        ctx.prod ? "compression" : "",
-        "render", // keep this as last one
-      ],
-    },
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
@@ -214,7 +196,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: "-stack-overflow-frontend-clone",
+        appId: "stackoverflow",
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

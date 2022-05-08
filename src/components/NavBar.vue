@@ -40,6 +40,7 @@
       </q-tabs>
       <q-btn
         round
+        v-if="$store.state.token"
         :loading="loading"
         color="brown"
         @click="simulateProgress(4)"
