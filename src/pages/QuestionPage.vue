@@ -343,6 +343,7 @@ export default {
         console.log(err);
       } finally {
         // this.$q.loading.hide();
+        this.getComments(); // Call getComments() after getting the single post
       }
     },
 
@@ -370,7 +371,7 @@ export default {
       try {
         await commentService.getComments(this.id).then((response) => {
           this.comments = response.data.data;
-          this.getSinglePost();
+          this.getAnswers(); // Call getAnswers() after getting the comments
         });
       } catch (err) {
         console.log(err);
@@ -393,10 +394,8 @@ export default {
   created: function () {
     this.moment = moment;
   },
-  mounted() {
-    this.getSinglePost();
-    this.getComments();
-    this.getAnswers();
+  async mounted() {
+    await this.getSinglePost();
   },
 };
 </script>
