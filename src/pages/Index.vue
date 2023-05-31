@@ -150,11 +150,11 @@
   </div>
 </template>
 <script>
-import { api } from "boot/axios";
+import Api from "../services/Api";
 
 export default {
-  name: 'Home',
-   meta: {
+  name: "Home",
+  meta: {
     title: "Home",
   },
   data() {
@@ -169,7 +169,7 @@ export default {
       pagination: {},
     };
   },
- 
+
   watch: {
     $route: "fetchData",
   },
@@ -194,7 +194,7 @@ export default {
       try {
         this.pagination.page = this.$route.query.page;
 
-        await api
+        await Api()
           .get(`question`, {
             params: {
               page: this.pagination.page,

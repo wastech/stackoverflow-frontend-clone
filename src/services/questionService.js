@@ -1,45 +1,45 @@
-import { api } from "boot/axios";
+import Api from "../services/Api";
 
 export default {
   addQuestion(question) {
-    return api.post("question", question);
+    return Api().post("question", question);
   },
   upvote(upvote) {
-    return api.post(`question/upvote/${upvote}`);
+    return Api().post(`question/upvote/${upvote}`);
   },
   getQuestions() {
-    return api.get("question");
+    return Api().get("question");
   },
   getTags() {
-    return api.get("question/listTags");
+    return Api().get("question/listTags");
   },
   showQuestion(questionId) {
-    return api.get(`question/${questionId}`);
+    return Api().get(`question/${questionId}`);
   },
   sigleUserPosts(userId) {
-    return api.get(`questions/userpost/${userId}`);
+    return Api().get(`questions/userpost/${userId}`);
   },
   getCategories(categoryId) {
-    return api.get(`questions/category/${categoryId}`);
+    return Api().get(`questions/category/${categoryId}`);
   },
   getRelated(relatedId) {
-    return api.get(`questions/related/${relatedId}`);
+    return Api().get(`questions/related/${relatedId}`);
   },
 
   getTagged(tagsId) {
-    return api.get(`question/qtags/${tagsId}`);
+    return Api().get(`question/qtags/${tagsId}`);
   },
   addcomment(comment) {
-    return api.post(`comments`, comment);
+    return Api().post(`comments`, comment);
   },
   getComments(postId) {
-    return api.get(`comments/${postId}/comments`);
+    return Api().get(`comments/${postId}/comments`);
   },
 
   deleteData(ID) {
-    return api.delete(`events/${ID}`);
+    return Api().delete(`events/${ID}`);
   },
   getRelated(relatedId) {
-    return api.get(`events/related/${relatedId}`);
+    return Api().get(`events/related/${relatedId}`);
   },
 };

@@ -80,7 +80,6 @@ export default defineComponent({
 .left___side {
   border-right: 1px solid #ccc !important;
   height: 100vh;
-
 }
 a {
   text-decoration: none;

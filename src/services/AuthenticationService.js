@@ -1,26 +1,26 @@
-import { api } from "boot/axios";
+import Api from "../services/Api";
 
 export default {
   register(credentials) {
-    return api.post("auth/register", credentials);
+    return Api().post("auth/register", credentials);
   },
   login(credentials) {
-    return api.post("/auth/login", credentials);
+    return Api().post("/auth/login", credentials);
   },
   update(credentials) {
-    return api().put("auth/updatedetails", credentials);
+    return Api().put("auth/updatedetails", credentials);
   },
 
   users() {
-    return api.get("/users");
+    return Api().get("/users");
   },
   profile() {
-    return api.get("auth/me");
+    return Api().get("auth/me");
   },
   delete(userId) {
-    return api().delete(`auth/admin/user/${userId}`);
+    return Api().delete(`auth/admin/user/${userId}`);
   },
   user(userId) {
-    return api.get(`users/${userId}`);
+    return Api().get(`users/${userId}`);
   },
 };

@@ -1,10 +1,10 @@
-import { api } from "boot/axios";
+import Api from "../services/Api";
 
 export default {
   addcomment(comment) {
-    return api.post(`comments`, comment);
+    return Api().post(`comments`, comment);
   },
   getComments(postId) {
-    return api.get(`comments/${postId}/comments`);
+    return Api().get(`comments/${postId}/comments`);
   },
 };

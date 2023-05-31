@@ -80,16 +80,16 @@
 // import { useQuasar } from 'quasar'
 import AuthenticationService from "../services/AuthenticationService";
 export default {
-   meta() {
-        return {
-            title: "login"
-        }
-    },
+  meta() {
+    return {
+      title: "login",
+    };
+  },
   data() {
     return {
-      password: "",
+      password: "admin123",
       isPwd: true,
-      email: "",
+      email: "admin123@gmail.com",
     };
   },
   methods: {

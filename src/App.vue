@@ -6,12 +6,11 @@
           This Website can only display on destop
         </q-banner>
       </div>
-    
     </div>
-      <div v-if="$q.screen.gt.sm">
-        <nav-bar />
-        <router-view :key="$route.path" />
-      </div>
+    <div v-if="$q.screen.gt.sm">
+      <nav-bar />
+      <router-view :key="$route.path" />
+    </div>
   </q-layout>
 </template>
 <script>

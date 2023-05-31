@@ -1,10 +1,10 @@
-import { api } from "boot/axios";
+import Api from "../services/Api";
 
 export default {
   addAnswer(answerId) {
-    return api.post(`answer`, answerId);
+    return Api().post(`answer`, answerId);
   },
   getAnswers(answerId) {
-    return api.get(`answer/${answerId}/answers`);
+    return Api().get(`answer/${answerId}/answers`);
   },
 };
